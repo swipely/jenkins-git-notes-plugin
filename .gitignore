@@ -1,4 +1,5 @@
 .idea/
+pkg/
 work/
 Gemfile.lock
 *~
