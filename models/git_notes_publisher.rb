@@ -26,7 +26,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
       # show existing notes
       repo = Grit::Repo.new(build.workspace.realpath)
       existing_notes = repo.git.native(:notes, {:ref => GIT_NOTES_REF}, :show).strip
-      listener.info "git-notes-plugin: existing notes: #{existing_notes}"
+      listener.info "git-notes plugin: existing notes: #{existing_notes}"
 
       # create new notes
       native = build.send(:native)
@@ -46,12 +46,12 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
           :url => native.getUrl
       }
       notes_json = JSON.pretty_generate(notes_hash)
-      listener.info "git-notes-plugin: notes json: #{notes_json}"
+      listener.info "git-notes plugin: notes json: #{notes_json}"
 
       # add and push new notes
       repo.git.native(:notes, {:raise => true, :ref => GIT_NOTES_REF}, :add, "-f", "-m", notes_json)
-      listener.info "git-notes-plugin: added notes"
+      listener.info "git-notes plugin: added notes"
       repo.git.native(:push, {:raise => true}, "origin", "refs/notes/#{GIT_NOTES_REF}", "-f")
-      listener.info "git-notes-plugin: pushed notes"
+      listener.info "git-notes plugin: pushed notes"
     end
 end

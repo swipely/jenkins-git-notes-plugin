@@ -33,7 +33,7 @@ new ideas like this, it was an easy decision to start work on this plugin!
 
 ## Use
 
-With the git-notes-plugin installed in Jenkins, you simply check the "Publish build result as git-notes" box in the
+With the git-notes plugin installed in Jenkins, you simply check the "Publish build result as git-notes" box in the
 publish section of the build config:
 
 ![check the publish git-notes box](https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/publish-box.png)
