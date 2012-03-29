@@ -20,6 +20,17 @@ And since [Jenkins made it simple](http://jenkins-ci.org/content/beginning-new-e
 new ideas like this, it was an easy decision to start work on this plugin!
 
 
+## Install
+
+1. [Get](https://jenkins-ci.org/) Jenkins.
+
+2. Install the [ruby-runtime](http://jenkins-ci.org/plugin/ruby-runtime/) plugin and the [git-notes](https://wiki.jenkins-ci.org/display/JENKINS/git-notes+Plugin) plugin.
+
+3. Restart Jenkins.
+
+![install the ruby-runtime and git-notes plugins](https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/plugin-manager.png)
+
+
 ## Use
 
 With the git-notes-plugin installed in Jenkins, you simply check the "Publish build result as git-notes" box in the
