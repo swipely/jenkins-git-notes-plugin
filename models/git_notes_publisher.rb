@@ -60,6 +60,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
   # Execute a command for the given build, log to listener, return hash with :out, :err, :val.
   def build_exec(build, listener, command, opts = {})
     listener.info("git-notes-plugin: build_exec: command: #{command.inspect}, opts: #{opts.inspect}")
+    opts[:chdir] ||= build.workspace.realpath
     opts[:out] ||= StringIO.new
     opts[:err] ||= StringIO.new
     if stdin_str = opts.delete(:stdin_str)
