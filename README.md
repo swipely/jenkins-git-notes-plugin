@@ -24,11 +24,13 @@ new ideas like this, it was an easy decision to start work on this plugin!
 
 1. [Get](https://jenkins-ci.org/) Jenkins.
 
-2. Install the [ruby-runtime](http://jenkins-ci.org/plugin/ruby-runtime/) plugin and the [git-notes](https://wiki.jenkins-ci.org/display/JENKINS/git-notes+Plugin) plugin.
+2. Install the [ruby-runtime](http://jenkins-ci.org/plugin/ruby-runtime/) plugin and the [git-notes]
+(https://wiki.jenkins-ci.org/display/JENKINS/git-notes+Plugin) plugin.
 
 3. Restart Jenkins.
 
-![install the ruby-runtime and git-notes plugins](https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/plugin-manager.png)
+![install the ruby-runtime and git-notes plugins]
+(https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/plugin-manager.png)
 
 
 ## Use
@@ -36,7 +38,8 @@ new ideas like this, it was an easy decision to start work on this plugin!
 With the git-notes plugin installed in Jenkins, you simply check the "Publish build result as git-notes" box in the
 publish section of the build config:
 
-![check the publish git-notes box](https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/publish-box.png)
+![check the publish git-notes box]
+(https://github.com/swipely/jenkins-git-notes-plugin/raw/master/.README/publish-box.png)
 
 Your commits will then get the latest build status, which GitHub will display in a pretty yellow box at the bottom of
 the commit page and under the "jenkins" namespace:
@@ -56,3 +59,9 @@ As you can see, the format of the notes is JSON.  Here is an example which has b
       "time": "2012-03-29 09:46:01 -0400",  /* time that build was scheduled */
       "url": "job/junk/45/"                 /* build URL, relative to root */
     }
+
+
+## Develop
+
+Interested in contributing to the Jenkins git-notes plugin?  Great!  Start [here]
+(https://github.com/cowboyd/jenkins.rb/wiki/Getting-Started-With-Ruby-Plugins).
