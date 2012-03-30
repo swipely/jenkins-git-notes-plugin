@@ -1,11 +1,11 @@
 {
   "built_on": "master",
-  "duration": 1.14,
-  "full_display_name": "junk #58",
-  "id": "2012-03-30_13-57-17",
-  "number": 58,
+  "duration": 2.203,
+  "full_display_name": "junk #60",
+  "id": "2012-03-30_14-00-15",
+  "number": 60,
   "result": "SUCCESS",
-  "status_message": "stable",
-  "time": "2012-03-30 13:57:17 -0400",
-  "url": "job/junk/58/"
+  "status_message": "back to normal",
+  "time": "2012-03-30 14:00:15 -0400",
+  "url": "job/junk/60/"
 }
