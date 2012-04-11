@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe GitNotesPublisher do
   context 'the git notes publisher' do
-    subject { GitNotesPublisher.new }
     let(:build) { stub }
     let(:launcher) { stub }
     let(:listener) { stub(:info => true) }
