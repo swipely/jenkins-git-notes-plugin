@@ -1,5 +1,5 @@
 class GitBuildNote
-  attr_reader :exec, :refname, :build, :listener
+  attr_reader :refname, :exec, :build, :listener
 
   def initialize(refname, build, listener)
     @refname = refname

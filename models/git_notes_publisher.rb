@@ -1,5 +1,3 @@
-require 'stringio'
-
 class GitNotesPublisher < Jenkins::Tasks::Publisher
   GIT_NOTES_REF = "jenkins"
 
