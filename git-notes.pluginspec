@@ -1,7 +1,7 @@
 Jenkins::Plugin::Specification.new do |plugin|
   plugin.name = "git-notes"
   plugin.display_name = "git-notes Plugin"
-  plugin.version = '0.0.2'
+  plugin.version = '0.0.3'
   plugin.description = 'Add git-notes with Jenkins build status!'
 
   plugin.url = 'https://wiki.jenkins-ci.org/display/JENKINS/git-notes+Plugin'
