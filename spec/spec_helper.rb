@@ -17,5 +17,5 @@ end
 
 # Classes defined in this plugin
 require 'build_exec'
-require 'git_build_note'
+require 'git_note'
 require 'git_notes_publisher'

@@ -1,22 +1,23 @@
-class GitBuildNote
-  attr_reader :refname, :exec, :build, :listener
+class GitNote
+  attr_reader :refname, :exec, :listener
 
-  def initialize(refname, build, listener)
+  def initialize(refname, exec, listener)
     @refname = refname
-    @build = build
+    @exec = exec
     @listener = listener
-    @exec = BuildExec.new(build, listener)
   end
 
   # Attach a git note based on the build status and push it to origin
-  def update!
+  def update!(note_hash)
+    note_hash = note_hash.dup
+
     fetch_refs
     listener.info "git-notes plugin: fetched note refs"
 
     existing_note = get_existing
     listener.info "git-notes plugin: existing note: #{existing_note}"
 
-    note_hash = build_hash(existing_note)
+    note_hash[:previous_note] = JSON.parse(existing_note) if existing_note
     listener.info "git-notes plugin: note to add: #{note_hash.inspect}"
 
     res = attach(note_hash)
@@ -40,30 +41,5 @@ class GitBuildNote
   def attach(note_hash)
     exec.run("git notes --ref #{refname} add -f -F -", {:stdin_str => JSON.pretty_generate(note_hash), :raise => true})
     exec.run("git push origin refs/notes/#{refname}")
-  end
-
-  # Return a hash representing the git note we want to add to HEAD
-  def build_hash(existing)
-    native = build.send(:native)
-    built_on = native.getBuiltOnStr || "master"
-    built_on = "master" if built_on.empty?
-    time = Time.at(native.getTimeInMillis / 1000.0)
-    duration = Time.now - time
-
-    ret = {
-      :built_on => built_on,
-      :duration => duration,
-      :full_display_name => native.getFullDisplayName,
-      :id => native.getId,
-      :number => native.getNumber,
-      :result => native.getResult.toString,
-      :status_message => native.getBuildStatusSummary.message,
-      :time => time,
-      :url => native.getUrl
-    }
-
-    ret[:previous_note] = JSON.parse(existing) if existing
-
-    ret
   end
 end
