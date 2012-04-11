@@ -14,10 +14,4 @@ module Jenkins
 end
 
 # Classes defined in this plugin
-require 'build_context'
-require 'builder'
-require 'concurrent_update_error'
-require 'constants'
 require 'git_notes_publisher'
-require 'git_updater'
-require 'notes_generator'

@@ -1,5 +1,5 @@
-class NotesGenerator
-  include Builder
+class BuildNotes
+  include BuildParticipant
 
   def notes
     JSON.pretty_generate(generate_notes_hash)

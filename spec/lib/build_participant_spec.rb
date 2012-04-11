@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Builder do
+describe BuildParticipant do
   context 'a build executor' do
     let(:listener) { stub(:info => true) }
     let(:launcher) { stub(:execute) }
@@ -12,10 +12,10 @@ describe Builder do
     let(:build) { stub(:workspace => workspace) }
 
     subject {
-      class MyBuilder
-        include Builder
+      class MyBuildParticipant
+        include BuildParticipant
       end
-      MyBuilder.new
+      MyBuildParticipant.new
     }
 
     before do
@@ -26,10 +26,28 @@ describe Builder do
       BuildContext.instance.unset
     end
 
+    context '.build' do
+      it 'returns the build set in the context singleton' do
+        subject.build == build
+      end
+    end
+
+    context '.listener' do
+      it 'returns the listener set in the context singleton' do
+        subject.listener == listener
+      end
+    end
+
+    context '.launcher' do
+      it 'returns the launcher set in the context singleton' do
+        subject.launcher == launcher
+      end
+    end
+
     context '.run' do
       let(:out) { StringIO.new << "stdout" }
       let(:err) { StringIO.new << "stderr" }
-      
+
       before do
         launcher.should_receive(:execute).and_return(1)
       end

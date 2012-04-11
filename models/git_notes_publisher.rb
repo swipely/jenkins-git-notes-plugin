@@ -1,5 +1,11 @@
+require File.expand_path('../../lib/constants', __FILE__)
+require File.expand_path('../../lib/build_context', __FILE__)
+require File.expand_path('../../lib/build_participant', __FILE__)
+require File.expand_path('../../lib/build_notes', __FILE__)
+require File.expand_path('../../lib/git_updater', __FILE__)
+
 class GitNotesPublisher < Jenkins::Tasks::Publisher
-  include Builder
+  include BuildParticipant
 
   display_name "Publish build result as git-notes"
 
@@ -24,10 +30,11 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
     BuildContext.instance.set(build, launcher, listener) do
       git_updater = GitUpdater.new
       retries = Constants::CONCURRENT_UPDATE_RETRIES
+      notes = BuildNotes.new.notes
       begin
         info "updating git notes"
-        git_updater.update!
-      rescue ConcurrentUpdateError => e
+        git_updater.update!(notes)
+      rescue GitUpdater::ConcurrentUpdateError => e
         if retries > 0
           warn "caught ConcurrentUpdateError while updating git notes, retrying (#{retries}x left)"
           retries -= 1
@@ -36,28 +43,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
           raise e
         end
       end
+      info "updated git notes: #{notes}"
     end
-  end
-  
-  # Return a hash representing the git note we want to add to HEAD
-  private
-  def build_note_hash(build)
-    native = build.send(:native)
-    built_on = native.getBuiltOnStr || "master"
-    built_on = "master" if built_on.empty?
-    time = Time.at(native.getTimeInMillis / 1000.0)
-    duration = Time.now - time
-
-    {
-      :built_on => built_on,
-      :duration => duration,
-      :full_display_name => native.getFullDisplayName,
-      :id => native.getId,
-      :number => native.getNumber,
-      :result => native.getResult.toString,
-      :status_message => native.getBuildStatusSummary.message,
-      :time => time,
-      :url => native.getUrl
-    }
   end
 end

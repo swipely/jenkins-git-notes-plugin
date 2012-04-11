@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NotesGenerator do
+describe BuildNotes do
   let(:launcher) { stub }
   let(:listener) { stub(:info => true) }
   let(:native) do

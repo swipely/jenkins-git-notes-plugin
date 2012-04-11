@@ -1,6 +1,6 @@
 require 'stringio'
 
-module Builder
+module BuildParticipant
   def build
     BuildContext.instance.build
   end
@@ -11,6 +11,26 @@ module Builder
 
   def listener
     BuildContext.instance.listener
+  end
+
+  def debug(line)
+    listener.debug(format(line))
+  end
+
+  def error(line)
+    listener.error(format(line))
+  end
+
+  def fatal(line)
+    listener.fatal(format(line))
+  end
+
+  def info(line)
+    listener.info(format(line))
+  end
+
+  def warn(line)
+    listener.warn(format(line))
   end
 
   def run(command, opts = {})
@@ -37,26 +57,6 @@ module Builder
 
     info "returning results of run: #{result.inspect}"
     result
-  end
-
-  def debug(line)
-    listener.debug(format(line))
-  end
-
-  def error(line)
-    listener.error(format(line))
-  end
-
-  def fatal(line)
-    listener.fatal(format(line))
-  end
-
-  def info(line)
-    listener.info(format(line))
-  end
-
-  def warn(line)
-    listener.warn(format(line))
   end
 
   def format(line)

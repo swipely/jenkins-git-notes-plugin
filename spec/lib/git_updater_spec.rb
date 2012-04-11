@@ -33,18 +33,6 @@ describe GitUpdater do
       BuildContext.instance.unset
     end
 
-    context '.update!' do
-      it 'does not raise when push succeeds' do
-        subject.stub(:run => {:val => 0, :out => ''})
-        lambda { subject.update! }.should_not raise_error
-      end
-
-      it 'raises when push fails' do
-        subject.stub(:run => {:val => 1})
-        subject.update!.should raise_error
-      end
-    end
-
     context '.fetch_notes' do
       it 'executes a command to fetch the latest notes' do
         subject.should_receive(:run)
@@ -70,10 +58,19 @@ describe GitUpdater do
 
     context '.push_notes' do
       it 'adds and pushes the note' do
-        subject.should_receive(:run).twice
-        subject.push_notes
+        subject.should_receive(:run).twice.and_return({:val => 0})
+        subject.push_notes("a note")
+      end
+
+      it 'does not raise when push succeeds' do
+        subject.stub(:run => {:val => 0, :out => ''})
+        lambda { subject.push_notes("a note") }.should_not raise_error
+      end
+
+      it 'raises when push fails' do
+        subject.stub(:run => {:val => 1})
+        lambda { subject.push_notes("a note") }.should raise_error GitUpdater::ConcurrentUpdateError
       end
     end
-
   end
 end
