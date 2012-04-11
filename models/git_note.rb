@@ -7,7 +7,7 @@ class GitNote
     @listener = listener
   end
 
-  # Attach a git note based on the build status and push it to origin
+  # Attach a git note and push it to origin
   def update!(note_hash)
     note_hash = note_hash.dup
 
