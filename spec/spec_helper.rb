@@ -1,8 +1,6 @@
 PROJECT_ROOT = File.expand_path("../..", __FILE__)
 $LOAD_PATH << File.join(PROJECT_ROOT, "models")
 
-ENV["RAILS_ENV"] = 'test'
-
 # System deps
 require 'json'
 
@@ -16,6 +14,10 @@ module Jenkins
 end
 
 # Classes defined in this plugin
-require 'build_exec'
-require 'git_build_note'
+require 'build_context'
+require 'builder'
+require 'concurrent_update_error'
+require 'constants'
 require 'git_notes_publisher'
+require 'git_updater'
+require 'notes_generator'

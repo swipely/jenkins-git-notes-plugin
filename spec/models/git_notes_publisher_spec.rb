@@ -5,21 +5,30 @@ describe GitNotesPublisher do
     let(:build) { stub }
     let(:launcher) { stub }
     let(:listener) { stub(:info => true) }
-    let(:git_note) { stub }
+    let(:git_updater) { stub }
+
+    before do
+      BuildContext.instance.set(build, launcher, listener)
+    end
+
+    after do
+      BuildContext.instance.unset
+    end
 
     context '.perform' do
       before do
-        GitBuildNote.stub(:new).and_return(git_note)
+        GitUpdater.stub(:new).and_return(git_updater)
       end
 
       it 'updates a note once when it succeeds' do
-        git_note.should_receive(:update!).and_return(true)
+        git_updater.should_receive(:update!).and_return(true)
         subject.perform(build, launcher, listener)
       end
 
       it 'tries to update a note three times in the case of failure' do
-        git_note.should_receive(:update!).exactly(3).times.and_return(false)
-        subject.perform(build, launcher, listener)
+        git_updater.should_receive(:update!).exactly(3).times.and_raise(ConcurrentUpdateError)
+        listener.should_receive(:warn).exactly(2).times
+        lambda { subject.perform(build, launcher, listener) }.should raise_error(ConcurrentUpdateError)
       end
     end
   end

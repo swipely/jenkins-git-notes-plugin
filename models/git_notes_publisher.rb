@@ -1,5 +1,5 @@
 class GitNotesPublisher < Jenkins::Tasks::Publisher
-  GIT_NOTES_REF = "jenkins"
+  include Builder
 
   display_name "Publish build result as git-notes"
 
@@ -21,11 +21,21 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
   # @param [Jenkins::Launcher] launcher the launcher that can run code on the node running this build
   # @param [Jenkins::Model::Listener] listener the listener for this build.
   def perform(build, launcher, listener)
-    git_note = GitBuildNote.new(GIT_NOTES_REF, build, listener)
-
-    tries = 3
-    while tries > 0 && !git_note.update!
-      tries -= 1
+    BuildContext.instance.set(build, launcher, listener) do
+      git_updater = GitUpdater.new
+      retries = Constants::CONCURRENT_UPDATE_RETRIES
+      begin
+        info "updating git notes"
+        git_updater.update!
+      rescue ConcurrentUpdateError => e
+        if retries > 0
+          warn "caught ConcurrentUpdateError while updating git notes, retrying (#{retries}x left)"
+          retries -= 1
+          retry
+        else
+          raise e
+        end
+      end
     end
   end
 end

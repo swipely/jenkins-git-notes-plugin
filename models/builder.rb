@@ -1,14 +1,20 @@
-class BuildExec
-  attr_reader :build, :listener
+require 'stringio'
 
-  def initialize(build, listener)
-    @build = build
-    @listener = listener
+module Builder
+  def build
+    BuildContext.instance.build
   end
 
-  # Execute a command for the given build, log to listener, return hash with :out, :err, :val.
+  def launcher
+    BuildContext.instance.launcher
+  end
+
+  def listener
+    BuildContext.instance.listener
+  end
+
   def run(command, opts = {})
-    listener.info("git-notes-plugin: build_exec: command: #{command.inspect}, opts: #{opts.inspect}")
+    info "running command #{command.inspect} with opts #{opts.inspect}"
 
     # Set the repo directory and process streams
     opts[:chdir] ||= build.workspace.realpath
@@ -22,7 +28,6 @@ class BuildExec
     end
 
     # Execute the command and save the output
-    launcher = build.workspace.create_launcher(listener)
     val = launcher.execute(command, opts)
     opts[:out].rewind
     opts[:err].rewind
@@ -30,7 +35,32 @@ class BuildExec
 
     raise "Unexpected exit code (#{val}): command: #{command.inspect}: result: #{result.inspect}" if opts[:raise] && 0 != val
 
-    listener.info("git-notes-plugin: build_exec: returning: #{result.inspect}")
+    info "returning results of run: #{result.inspect}"
     result
   end
+
+  def debug(line)
+    listener.debug(format(line))
+  end
+
+  def error(line)
+    listener.error(format(line))
+  end
+
+  def fatal(line)
+    listener.fatal(format(line))
+  end
+
+  def info(line)
+    listener.info(format(line))
+  end
+
+  def warn(line)
+    listener.warn(format(line))
+  end
+
+  def format(line)
+    "#{Constants::LOG_PREFIX}#{line}"
+  end
+  private :format
 end

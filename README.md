@@ -65,3 +65,13 @@ As you can see, the format of the notes is JSON.  Here is an example which has b
 
 Interested in contributing to the Jenkins git-notes plugin?  Great!  Start [here]
 (https://github.com/jenkinsci/jenkins.rb/wiki/Getting-Started-With-Ruby-Plugins).
+
+Start the development server and set up a build config to test with:
+
+    bundle install
+    bundle exec jpi server
+    open http://localhost:8080
+
+Run the tests:
+
+    bundle exec rspec

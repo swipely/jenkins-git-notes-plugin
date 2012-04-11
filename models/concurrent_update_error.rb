@@ -1,0 +1,2 @@
+class ConcurrentUpdateError < RuntimeError
+end

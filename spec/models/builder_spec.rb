@@ -1,18 +1,30 @@
 require 'spec_helper'
 
-describe BuildExec do
+describe Builder do
   context 'a build executor' do
     let(:listener) { stub(:info => true) }
     let(:launcher) { stub(:execute) }
     let(:workspace) do
       stub({
-        :realpath => '/var/jenkins/builds',
-        :create_launcher => launcher
+        :realpath => '/var/jenkins/builds'
       })
     end
     let(:build) { stub(:workspace => workspace) }
 
-    subject { BuildExec.new(build, listener) }
+    subject {
+      class MyBuilder
+        include Builder
+      end
+      MyBuilder.new
+    }
+
+    before do
+      BuildContext.instance.set(build, launcher, listener)
+    end
+
+    after do
+      BuildContext.instance.unset
+    end
 
     context '.run' do
       let(:out) { StringIO.new << "stdout" }
