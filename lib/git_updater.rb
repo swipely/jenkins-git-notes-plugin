@@ -17,7 +17,7 @@ class GitUpdater
   # Force-update the notes ref to get changes from other builds
   def fetch_notes
     info "fetching notes"
-    run("git fetch -f origin refs/notes/#{refname}:refs/notes/#{refname}", {:raise => true})
+    run("git fetch -f origin refs/notes/*:refs/notes/*", {:raise => true})
   end
 
   # Log any existing git notes
