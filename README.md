@@ -1,6 +1,6 @@
 # Add [git-notes](http://man.github.com/git/git-notes.html) with [Jenkins](http://jenkins-ci.org/) build status!
 
-This is a [pure Ruby Jenkins plugin](https://github.com/cowboyd/jenkins.rb) which annotates git commits with Jenkins
+This is a [pure Ruby Jenkins plugin](https://github.com/jenkinsci/jenkins.rb) which annotates git commits with Jenkins
 build information using the awesome git-notes functionality.
 
 
