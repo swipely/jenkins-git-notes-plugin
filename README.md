@@ -20,6 +20,11 @@ And since [Jenkins made it simple](http://jenkins-ci.org/content/beginning-new-e
 new ideas like this, it was an easy decision to start work on this plugin!
 
 
+## Prerequisites
+
+* Git version 1.7.1 or greater needs to be installed on the Jenkins master.
+
+
 ## Install
 
 1. [Get](https://jenkins-ci.org/) Jenkins.
