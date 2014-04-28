@@ -38,6 +38,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
         if retries > 0
           warn "caught ConcurrentUpdateError while updating git notes, retrying (#{retries}x left)"
           retries -= 1
+          sleep(10 - retries)
           retry
         else
           raise e

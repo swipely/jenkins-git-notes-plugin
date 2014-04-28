@@ -3,5 +3,5 @@ module Constants
 
   LOG_PREFIX = "git-notes plugin: "
 
-  CONCURRENT_UPDATE_RETRIES = 2
+  CONCURRENT_UPDATE_RETRIES = 10
 end

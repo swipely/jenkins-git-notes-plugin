@@ -19,6 +19,7 @@ describe GitNotesPublisher do
     context '.perform' do
       before do
         GitUpdater.stub(:new).and_return(git_updater)
+        subject.stub(:sleep)
       end
 
       it 'updates a note once when it succeeds' do
@@ -27,8 +28,8 @@ describe GitNotesPublisher do
       end
 
       it 'tries to update a note three times in the case of failure' do
-        git_updater.should_receive(:update!).exactly(3).times.and_raise(GitUpdater::ConcurrentUpdateError)
-        listener.should_receive(:warn).exactly(2).times
+        git_updater.should_receive(:update!).exactly(11).times.and_raise(GitUpdater::ConcurrentUpdateError)
+        listener.should_receive(:warn).exactly(10).times
         lambda { subject.perform(build, launcher, listener) }.should raise_error(GitUpdater::ConcurrentUpdateError)
       end
     end
