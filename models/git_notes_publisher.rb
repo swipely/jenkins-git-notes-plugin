@@ -29,21 +29,21 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
   def perform(build, launcher, listener)
     BuildContext.instance.set(build, launcher, listener) do
       git_updater = GitUpdater.new
-      retries = Constants::CONCURRENT_UPDATE_RETRIES
+      retry_times = Constants::CONCURRENT_UPDATE_SLEEP_TIMES
       notes = BuildNotes.new.notes
-      begin
-        info "updating git notes"
-        git_updater.update!(notes)
-      rescue GitUpdater::ConcurrentUpdateError => e
-        if retries > 0
+      retry_times.each_with_index do |retry_time, idx|
+        begin
+          info "updating git notes"
+          git_updater.update!(notes)
+          break
+        rescue GitUpdater::ConcurrentUpdateError => ex
+          retries = retry_times.length.pred - idx
+          raise ex if retries.zero?
           warn "caught ConcurrentUpdateError while updating git notes, retrying (#{retries}x left)"
-          retries -= 1
-          sleep(10 - retries)
-          retry
-        else
-          raise e
+          sleep(retry_time)
         end
       end
+
       info "updated git notes: #{notes}"
     end
   end

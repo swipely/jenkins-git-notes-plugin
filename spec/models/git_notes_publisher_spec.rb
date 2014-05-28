@@ -28,8 +28,8 @@ describe GitNotesPublisher do
       end
 
       it 'tries to update a note three times in the case of failure' do
-        git_updater.should_receive(:update!).exactly(11).times.and_raise(GitUpdater::ConcurrentUpdateError)
-        listener.should_receive(:warn).exactly(10).times
+        git_updater.should_receive(:update!).exactly(8).times.and_raise(GitUpdater::ConcurrentUpdateError)
+        listener.should_receive(:warn).exactly(7).times
         lambda { subject.perform(build, launcher, listener) }.should raise_error(GitUpdater::ConcurrentUpdateError)
       end
     end
