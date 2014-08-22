@@ -1,0 +1,22 @@
+<%
+f = taglib("/lib/form")
+f.block do
+  f.entry(:title => 'URL of SQS Queue (optional)',
+          :field => 'sqs_queue',
+          :description => 'The name of the SQS queue where build information will be pushed') do
+    f.textbox
+  end
+
+  f.entry(:title => 'AWS Access Key ID (optional)',
+          :field => 'access_key',
+          :description => 'The access key associated with the above SQS queue') do
+    f.textbox
+  end
+
+  f.entry(:title => 'AWS Secret Access Key (optional)',
+          :field => 'secret_key',
+          :description => 'The secret access key associated with the above SQS queue') do
+    f.password
+  end
+end
+%>

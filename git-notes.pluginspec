@@ -10,5 +10,5 @@ Jenkins::Plugin::Specification.new do |plugin|
 
   plugin.uses_repository :github => 'swipely/jenkins-git-notes-plugin'
 
-  plugin.depends_on 'ruby-runtime', '0.10'
+  plugin.depends_on 'ruby-runtime', '0.12'
 end

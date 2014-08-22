@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe GitNotesPublisher do
   context 'the git notes publisher' do
-    let(:build) { stub }
-    let(:launcher) { stub }
-    let(:listener) { stub(:info => true) }
-    let(:git_updater) { stub }
+    let(:build) { double(:build) }
+    let(:launcher) { double(:launcher) }
+    let(:listener) { double(:listener, :info => true) }
+    let(:git_updater) { double(:git_updater) }
 
     before do
-      BuildNotes.stub(:new => stub(:notes => {}))
+      BuildNotes.stub(:new => double(:notes => {}))
       BuildContext.instance.set(build, launcher, listener)
     end
 
@@ -23,14 +23,14 @@ describe GitNotesPublisher do
       end
 
       it 'updates a note once when it succeeds' do
-        git_updater.should_receive(:update!).and_return(true)
+        expect(git_updater).to receive(:update!).and_return(true)
         subject.perform(build, launcher, listener)
       end
 
-      it 'tries to update a note three times in the case of failure' do
-        git_updater.should_receive(:update!).exactly(8).times.and_raise(GitUpdater::ConcurrentUpdateError)
-        listener.should_receive(:warn).exactly(7).times
-        lambda { subject.perform(build, launcher, listener) }.should raise_error(GitUpdater::ConcurrentUpdateError)
+      it 'tries to update a note eight times in the case of failure' do
+        expect(git_updater).to receive(:update!).exactly(8).times.and_raise(GitUpdater::ConcurrentUpdateError)
+        expect(listener).to receive(:warn).exactly(7).times
+        expect { subject.perform(build, launcher, listener) }.to raise_error(GitUpdater::ConcurrentUpdateError)
       end
     end
   end

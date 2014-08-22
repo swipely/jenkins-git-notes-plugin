@@ -11,7 +11,7 @@ class GitUpdater
   def update!(notes)
     fetch_notes
     show_notes
-    push_notes(notes)
+    push_notes(JSON.pretty_generate(notes))
   end
 
   # Force-update the notes ref to get changes from other builds

@@ -3,9 +3,9 @@ require 'spec_helper'
 describe BuildContext do
   subject { BuildContext.instance }
 
-  let(:build) { stub }
-  let(:launcher) { stub }
-  let(:listener) { stub }
+  let(:build) { double(:build) }
+  let(:launcher) { double(:launcher) }
+  let(:listener) { double(:listener) }
 
   before do
     subject.unset
@@ -18,20 +18,20 @@ describe BuildContext do
   context '.set' do
     it 'sets the attributes' do
       subject.set(build, launcher, listener)
-      subject.build.should == build
-      subject.launcher == launcher
-      subject.listener == listener
+      expect(subject.build).to eq(build)
+      expect(subject.launcher).to eq(launcher)
+      expect(subject.listener).to eq(listener)
     end
 
     it 'temporarily sets the attributes when passed a block' do
       subject.set(build, launcher, listener) do
-        subject.build.should == build
-        subject.launcher == launcher
-        subject.listener == listener
+        expect(subject.build).to eq(build)
+        expect(subject.launcher).to eq(launcher)
+        expect(subject.listener).to eq(listener)
       end
-      subject.build.should be_nil
-      subject.launcher.should be_nil
-      subject.listener.should be_nil
+      expect(subject.build).to be_nil
+      expect(subject.launcher).to be_nil
+      expect(subject.listener).to be_nil
     end
   end
 
@@ -39,9 +39,9 @@ describe BuildContext do
     it 'unsets any previously set attributes' do
       subject.set(build, launcher, listener)
       subject.unset
-      subject.build.should be_nil
-      subject.launcher.should be_nil
-      subject.listener.should be_nil
+      expect(subject.build).to be_nil
+      expect(subject.launcher).to be_nil
+      expect(subject.listener).to be_nil
     end
   end
 end
