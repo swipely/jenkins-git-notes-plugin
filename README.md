@@ -53,18 +53,44 @@ the commit page and under the "jenkins" namespace:
 
 As you can see, the format of the notes is JSON.  Here is an example which has been marked up with comments for clarity:
 
-    {
-      "built_on": "master",                 /* name of node that build ran on */
-      "duration": 1.786,                    /* number of seconds that the build took */
-      "full_display_name": "junk #45",      /* name of the build, project + number */
-      "id": "2012-03-29_09-46-01",          /* unique ID for the build */
-      "number": 45,                         /* project build sequence number */
-      "result": "SUCCESS",                  /* result string: ABORTED|FAILURE|NOT_BUILT|SUCCESS|UNSTABLE */
-      "status_message": "stable",           /* recent project status */
-      "time": "2012-03-29 09:46:01 -0400",  /* time that build was scheduled */
-      "url": "job/junk/45/"                 /* build URL, relative to root */
-    }
+```javascript
+{
+  "built_on": "master",                 /* name of node that build ran on */
+  "duration": 1.786,                    /* number of seconds that the build took */
+  "full_display_name": "junk #45",      /* name of the build, project + number */
+  "id": "2012-03-29_09-46-01",          /* unique ID for the build */
+  "number": 45,                         /* project build sequence number */
+  "result": "SUCCESS",                  /* result string: ABORTED|FAILURE|NOT_BUILT|SUCCESS|UNSTABLE */
+  "status_message": "stable",           /* recent project status */
+  "time": "2012-03-29 09:46:01 -0400",  /* time that build was scheduled */
+  "url": "job/junk/45/"                 /* build URL, relative to root */
+}
+```
 
+## SQS Integration
+
+Unfortunately, git notes are not forwarded through the GitHub SQS plugin. 
+To workaround this, we support forwarding the git notes through an SQS queue.
+Below is the JSON schema for the message sent to SQS:
+
+```javascript
+{
+  "repo": "git@github.com:swipely/jenkins-git-notes-plugin",
+  "sha": "deadbeaf0123456789",
+  "source": "jenkins",
+  "notes": {
+    "built_on": "master",
+    "duration": 1.786,
+    "full_display_name": "junk #45",
+    "id": "2012-03-29_09-46-01",
+    "number": 45,
+    "result": "SUCCESS",
+    "status_message": "stable",
+    "time": "2012-03-29 09:46:01 -0400",
+    "url": "job/junk/45/"
+  }
+}
+```
 
 ## Develop
 
