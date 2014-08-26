@@ -1,7 +1,7 @@
 Jenkins::Plugin::Specification.new do |plugin|
   plugin.name = "git-notes"
   plugin.display_name = "git-notes Plugin"
-  plugin.version = '0.0.5'
+  plugin.version = '0.0.6'
   plugin.description = 'Add git-notes with Jenkins build status!'
 
   plugin.url = 'https://wiki.jenkins-ci.org/display/JENKINS/git-notes+Plugin'
@@ -10,5 +10,5 @@ Jenkins::Plugin::Specification.new do |plugin|
 
   plugin.uses_repository :github => 'swipely/jenkins-git-notes-plugin'
 
-  plugin.depends_on 'ruby-runtime', '0.10'
+  plugin.depends_on 'ruby-runtime', '0.12'
 end

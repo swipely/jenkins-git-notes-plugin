@@ -2,14 +2,12 @@ require 'spec_helper'
 
 describe BuildParticipant do
   context 'a build executor' do
-    let(:listener) { stub(:info => true) }
-    let(:launcher) { stub(:execute) }
+    let(:listener) { double(:info => true) }
+    let(:launcher) { double(:execute) }
     let(:workspace) do
-      stub({
-        :realpath => '/var/jenkins/builds'
-      })
+      double(:realpath => '/var/jenkins/builds')
     end
-    let(:build) { stub(:workspace => workspace) }
+    let(:build) { double(:workspace => workspace) }
 
     subject {
       class MyBuildParticipant
@@ -49,23 +47,23 @@ describe BuildParticipant do
       let(:err) { StringIO.new << "stderr" }
 
       before do
-        launcher.should_receive(:execute).and_return(1)
+        expect(launcher).to receive(:execute).and_return(1)
       end
 
       it 'succeeds with no opts' do
-        subject.run('foo').should == {:out => '', :err => '', :val => 1}
+        expect(subject.run('foo')).to eq(:out => '', :err => '', :val => 1)
       end
 
       it 'returns the stdout, stderr, and exit code from the command that was run' do
         opts = {:out => out, :err => err}
-        subject.run('foo', opts).should == {:out => 'stdout', :err => 'stderr', :val => 1}
+        expect(subject.run('foo', opts)).to eq(:out => 'stdout', :err => 'stderr', :val => 1)
       end
 
       it 'assigns the contents of opts[:stdin_str] to a stream in opts[:in]' do
         opts = {:out => out, :err => err, :stdin_str => "More STDIN"}
         subject.run('foo', opts)
 
-        opts[:in].read.should == "More STDIN\n"
+        expect(opts[:in].read).to eq("More STDIN\n")
       end
 
       it 'raises an exception when opts[:raise] is provided and the command fails' do
