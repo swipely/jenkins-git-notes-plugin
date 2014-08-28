@@ -33,5 +33,40 @@ describe GitNotesPublisher do
         expect { subject.perform(build, launcher, listener) }.to raise_error(GitUpdater::ConcurrentUpdateError)
       end
     end
+
+    context '.sqs_configured?' do
+      let(:access_key) { 'b' }
+      let(:secret_key) { 'c' }
+
+      before do
+        allow(subject).to receive(:sqs_queue).and_return(sqs_queue)
+        allow(subject).to receive(:access_key).and_return(access_key)
+        allow(subject).to receive(:secret_key).and_return(secret_key)
+      end
+
+      context 'when one is nil' do
+        let(:sqs_queue) { nil }
+
+        it 'should be false' do
+          expect(subject.send(:sqs_configured?)).to be_falsy
+        end
+      end
+
+      context 'when one is empty string' do
+        let(:sqs_queue) { '' }
+
+        it 'should be false' do
+          expect(subject.send(:sqs_configured?)).to be_falsy
+        end
+      end
+
+      context 'when all are valid' do
+        let(:sqs_queue) { 'a' }
+
+        it 'should be true' do
+          expect(subject.send(:sqs_configured?)).to be_truthy
+        end
+      end
+    end
   end
 end
