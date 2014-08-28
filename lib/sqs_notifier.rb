@@ -16,7 +16,7 @@ class SqsNotifier
   # be read, the sha cannot be read, or if the queue does not exist.
   def notify_note(note)
     repo = run("git config --get remote.origin.url", raise: true)[:out].chomp
-    info = run("git show HEAD -q", raise: true)[:out]
+    info = run("git show HEAD", raise: true)[:out]
     sha  = info.lines.first.chomp.split(' ')[1]
     notify(JSON.pretty_generate(repo: repo, sha: sha, source: 'jenkins', note: note))
     nil

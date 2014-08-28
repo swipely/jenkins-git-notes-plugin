@@ -5,7 +5,7 @@ describe SqsNotifier do
 
   describe '#notify_note' do
     let(:remote_command) { "git config --get remote.origin.url" }
-    let(:sha_command) { "git show HEAD -q" }
+    let(:sha_command) { "git show HEAD" }
 
     let(:note) { { test: 'note' } }
     let(:client) { double(:client) }
