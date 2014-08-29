@@ -60,6 +60,14 @@ describe GitNotesPublisher do
         end
       end
 
+      context 'when one is a whitespace string' do
+        let(:sqs_queue) { '  ' }
+
+        it 'should be false' do
+          expect(subject.send(:sqs_configured?)).to be_falsy
+        end
+      end
+
       context 'when all are valid' do
         let(:sqs_queue) { 'a' }
 

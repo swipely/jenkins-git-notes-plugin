@@ -70,7 +70,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
 
   def sqs_configured?
     [sqs_queue, access_key, secret_key].all? do |i|
-      !i.nil? && !i.empty?
+      !i.nil? && !i.strip.empty?
     end
   end
 end
