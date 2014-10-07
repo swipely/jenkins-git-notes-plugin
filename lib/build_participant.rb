@@ -1,5 +1,11 @@
 require 'stringio'
 
+class NullListener
+  def method_missing(meth, *args, &block)
+    $stderr.puts "[#{meth}] - #{args.join(',')}"
+  end
+end
+
 module BuildParticipant
   def build
     BuildContext.instance.build
@@ -10,7 +16,8 @@ module BuildParticipant
   end
 
   def listener
-    BuildContext.instance.listener
+    listener = BuildContext.instance.listener
+    listener.nil? ? NullListener.new : listener
   end
 
   def debug(line)
