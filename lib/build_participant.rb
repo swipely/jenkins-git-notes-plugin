@@ -1,8 +1,8 @@
 require 'stringio'
 
 class NullListener
-  def method_missing(*args, &block)
-    self
+  def method_missing(meth, *args, &block)
+    $stderr.puts "[#{meth}] - #{args.join(',')}"
   end
 end
 
