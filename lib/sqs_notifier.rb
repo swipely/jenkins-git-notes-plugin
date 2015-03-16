@@ -4,10 +4,11 @@ require 'fog'
 class SqsNotifier
   include BuildParticipant
 
-  attr_reader :queue_url, :creds
+  attr_reader :queue_url, :creds, :build_context
 
   # Create anew SqsNotifier with the given queue_url and credentials.
-  def initialize(queue_url, creds)
+  def initialize(build_context, queue_url, creds)
+    @build_context = build_context
     @queue_url = queue_url
     @creds = creds
   end

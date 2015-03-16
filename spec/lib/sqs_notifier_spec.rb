@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe SqsNotifier do
-  subject { SqsNotifier.new('my-test-queue', {}) }
+  let(:context) { double(:context) }
+  subject { SqsNotifier.new(context, 'my-test-queue', {}) }
 
   describe '#notify_note' do
     let(:remote_command) { "git config --get remote.origin.url" }

@@ -22,16 +22,9 @@ describe GitUpdater do
       })
     end
     let(:build) { double(:send => native, :workspace => workspace) }
+    let(:context) { BuildContext.new(build, launcher, listener) }
 
-    subject { GitUpdater.new }
-
-    before do
-      BuildContext.instance.set(build, launcher, listener)
-    end
-
-    after do
-      BuildContext.instance.unset
-    end
+    subject { GitUpdater.new(context) }
 
     context '.fetch_notes' do
       it 'executes a command to fetch the latest notes' do
@@ -47,7 +40,7 @@ describe GitUpdater do
         expect(subject).to receive(:info).with('existing note: existing note')
         subject.show_notes
       end
-      
+
       it 'logs appropriately when there is no existing note' do
         expect(subject).to receive(:run).and_return({:val => 1, :out => 'an error'})
         expect(subject).to receive(:info)

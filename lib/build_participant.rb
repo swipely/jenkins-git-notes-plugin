@@ -1,17 +1,12 @@
 require 'stringio'
 
+# This mixin provides utilities for interacting with a build context. Including
+# classes/modules must provide a `#build_context` method, which returns a
+# reference to the build context.
 module BuildParticipant
-  def build
-    BuildContext.instance.build
-  end
+  extend Forwardable
 
-  def launcher
-    BuildContext.instance.launcher
-  end
-
-  def listener
-    BuildContext.instance.listener
-  end
+  def_delegators :build_context, :build, :launcher, :listener
 
   def debug(line)
     listener.debug(format(line))
