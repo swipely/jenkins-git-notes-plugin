@@ -6,8 +6,6 @@ require File.expand_path('../../lib/git_updater', __FILE__)
 require File.expand_path('../../lib/sqs_notifier', __FILE__)
 
 class GitNotesPublisher < Jenkins::Tasks::Publisher
-  include BuildParticipant
-
   display_name "Publish build result as git-notes"
 
   attr_reader :sqs_queue, :access_key, :secret_key
