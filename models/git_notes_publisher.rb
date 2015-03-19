@@ -58,7 +58,7 @@ class GitNotesPublisher < Jenkins::Tasks::Publisher
   end
 
   def notify_sqs(notes, context)
-    SqsNotifier.new(context, sqs_queue, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
+    queue = SqsNotifier.new(context, sqs_queue, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
     queue.notify_note(notes) if sqs_configured?
   end
 
