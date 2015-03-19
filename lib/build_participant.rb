@@ -1,4 +1,5 @@
 require 'stringio'
+require 'forwardable'
 
 # This mixin provides utilities for interacting with a build context. Including
 # classes/modules must provide a `#build_context` method, which returns a
