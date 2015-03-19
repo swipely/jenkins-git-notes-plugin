@@ -1,6 +1,12 @@
 class BuildNotes
   include BuildParticipant
 
+  attr_reader :build_context
+
+  def initialize(build_context)
+    @build_context = build_context
+  end
+
   def notes
     info "building new notes hash"
     native = build.send(:native)

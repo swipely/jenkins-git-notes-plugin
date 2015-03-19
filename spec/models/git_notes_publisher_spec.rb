@@ -5,16 +5,10 @@ describe GitNotesPublisher do
     let(:build) { double(:build) }
     let(:launcher) { double(:launcher) }
     let(:listener) { double(:listener, :info => true) }
+    let(:context) { BuildContext.new(build, launcher, listener) }
     let(:git_updater) { double(:git_updater) }
 
-    before do
-      BuildNotes.stub(:new => double(:notes => {}))
-      BuildContext.instance.set(build, launcher, listener)
-    end
-
-    after do
-      BuildContext.instance.unset
-    end
+    before { BuildNotes.stub(:new => double(:notes => {})) }
 
     context '.perform' do
       before do

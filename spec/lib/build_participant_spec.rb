@@ -8,21 +8,20 @@ describe BuildParticipant do
       double(:realpath => '/var/jenkins/builds')
     end
     let(:build) { double(:workspace => workspace) }
-
-    subject {
-      class MyBuildParticipant
+    let(:context) { BuildContext.new(build, launcher, listener) }
+    let(:test_class) {
+      Class.new do
         include BuildParticipant
+
+        attr_reader :build_context
+
+        def initialize(build_context)
+          @build_context = build_context
+        end
       end
-      MyBuildParticipant.new
     }
 
-    before do
-      BuildContext.instance.set(build, launcher, listener)
-    end
-
-    after do
-      BuildContext.instance.unset
-    end
+    subject { test_class.new(context) }
 
     context '.build' do
       it 'returns the build set in the context singleton' do

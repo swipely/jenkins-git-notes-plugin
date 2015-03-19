@@ -3,6 +3,12 @@ class GitUpdater
 
   include BuildParticipant
 
+  attr_reader :build_context
+
+  def initialize(build_context)
+    @build_context = build_context
+  end
+
   def refname
     Constants::GIT_NOTES_REF
   end

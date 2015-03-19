@@ -16,16 +16,11 @@ describe BuildNotes do
     )
   end
   let(:build) { double(:send => native) }
+  let(:context) { BuildContext.new(build, launcher, listener) }
 
-  before do
-    BuildContext.instance.set(build, launcher, listener)
-  end
+  subject { BuildNotes.new(context) }
 
-  after do
-    BuildContext.instance.unset
-  end
-
-  context '.notes' do
+  describe '.notes' do
     it 'returns a jenkins build note' do
       expect(subject.notes).to_not be_nil
     end
