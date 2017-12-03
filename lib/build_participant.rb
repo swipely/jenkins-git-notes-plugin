@@ -32,8 +32,16 @@ module BuildParticipant
   def run(command, opts = {})
     info "running command #{command.inspect} with opts #{opts.inspect}"
 
+    default_dir = build.workspace.realpath
+
+    native = build.send(:native)
+    env = native.getEnvironment
+    if env.has_key?('GIT_LOCAL_SUBDIRECTORY')
+      default_dir += '/' + env['GIT_LOCAL_SUBDIRECTORY']
+    end
+
     # Set the repo directory and process streams
-    opts[:chdir] ||= build.workspace.realpath
+    opts[:chdir] ||= default_dir
     opts[:out] ||= StringIO.new
     opts[:err] ||= StringIO.new
     if stdin_str = opts.delete(:stdin_str)
